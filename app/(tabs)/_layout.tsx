@@ -2,17 +2,34 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: isDarkMode ? '#60A5FA' : '#0047AB',
+        tabBarInactiveTintColor: isDarkMode ? '#6B7280' : '#9CA3AF',
+        tabBarStyle: {
+          backgroundColor: isDarkMode ? '#1E1E1E' : '#FFFFFF',
+          borderTopWidth: 0,
+          elevation: 12,
+          shadowColor: '#000',
+          shadowOpacity: isDarkMode ? 0.4 : 0.08,
+          shadowRadius: 12,
+          shadowOffset: { width: 0, height: -4 },
+          height: 68,
+          paddingBottom: 10,
+          paddingTop: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: '700',
+          marginBottom: 4,
+        },
         headerShown: false,
         tabBarButton: HapticTab,
       }}>
@@ -20,14 +37,21 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={28} name="home-variant" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="tasks"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Tasks',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={28} name="format-list-checks" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="setting"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={28} name="cog" color={color} />,
         }}
       />
     </Tabs>
